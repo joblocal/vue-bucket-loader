@@ -21,7 +21,19 @@ yarn install
 After installing this package, introduce this component as followed.
 
 ```
-<VueBucketLoader />
+<template>
+  <VueBucketLoader />
+</template>
+
+<script>
+  import VueBucketLoader from 'vue-bucket-loader';
+
+  export default {
+    components: {
+      VueBucketLoader,
+    },
+  };
+</script>
 ```
 
 ### Development
