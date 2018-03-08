@@ -48,10 +48,10 @@ yarn dev
 
 * [Vue js](http://www.vuejs.org) - Javascript Framework
 * [Yarn](https://yarnpkg.com/lang/en/) - Dependency Management
-* [Webpack](https://https://webpack.js.org/) - Application Bundler
+* [Webpack](https://webpack.js.org/) - Application Bundler
 
 ## Authors
 
-* **Joblocal GmbH** - *Initial work* - [Joblocal](https://https://github.com/joblocal)
+* **Joblocal GmbH** - *Initial work* - [Joblocal](https://github.com/joblocal)
 
-See also the list of [contributors](https://github.com/joblocal/vue-s3-fileupload/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/joblocal/vue-bucket-loader/contributors) who participated in this project.
