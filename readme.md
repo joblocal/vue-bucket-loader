@@ -1,7 +1,7 @@
 # Vue Bucket Loader
 
 This Project provides a SSR compatible vue component which can handle file uploads directly to an AWS S3 Bucket.
-Therfore you will need to generate a signedUrl to upload your file.
+Therefore you will need to generate a signedUrl to upload your file.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ yarn install
 
 After installing this package, introduce this component as followed.
 
-```
+```javascript
 <template>
   <VueBucketLoader />
 </template>

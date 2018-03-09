@@ -2,6 +2,7 @@ import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const config = {
   mode: 'production',
+
   entry: './src/index.js',
 
   output: {

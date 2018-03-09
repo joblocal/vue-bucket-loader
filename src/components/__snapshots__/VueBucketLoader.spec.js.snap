@@ -2,10 +2,12 @@
 
 exports[`VueBucketLoader wrapper component  matches snapshot using defaults 1`] = `
 <div
-  class="VueBucketLoader"
+  class="vue-bucket-loader"
 >
-  <p>
-    Drop files here to upload.
-  </p>
+  <input
+    class="vue-bucket-loader__input"
+    multiple="multiple"
+    type="file"
+  />
 </div>
 `;
