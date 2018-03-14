@@ -4,7 +4,7 @@
   "main": "./dist/index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --config ./docs/webpack.config.babel.js --open --hot",
+    "dev": "./node_modules/.bin/webpack-dev-server --config ./docs/webpack.config.babel.js --open --hot",
     "prebuild": "rm -rf dist",
     "build": "npm run validate && webpack",
     "test": "./node_modules/.bin/jest",
@@ -20,6 +20,7 @@
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-jest": "^22.2.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.28.10",
     "eslint": "^4.17.0",
@@ -38,6 +39,10 @@
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.10",
     "webpack-dev-server": "^3.1.0"
+  },
+  "pre-push": {
+    "run": "validate",
+    "silent": true
   },
   "jest": {
     "collectCoverageFrom": [
@@ -71,5 +76,8 @@
   },
   "engines": {
     "node": ">= 8.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
   }
 }
