@@ -41,8 +41,8 @@ exports[`handle file deleted matches snapshot after file was deleted 1`] = `
   <ul>
     <li>
       
-       Lorem Second
-       
+      Lorem Second
+      
       <button>
         remove
       </button>

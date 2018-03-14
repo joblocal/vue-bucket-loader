@@ -1,19 +1,19 @@
 <template>
   <div class="vue-bucket-loader">
     <input
-       class="vue-bucket-loader__input"
-       type="file"
-       multiple
-       @change="handleFileAdded($event.target.files)"
+      class="vue-bucket-loader__input"
+      type="file"
+      multiple
+      @change="handleFileAdded($event.target.files)"
     >
     <ul>
-     <li
-      v-for="(fileWrapper, key) in files"
-      :key="key"
-     >
-         {{ fileWrapper.file.name }}
-         <button @click="handleFileDeleted(files[key])">remove</button>
-     </li>
+      <li
+        v-for="(fileWrapper, key) in files"
+        :key="key"
+      >
+        {{ fileWrapper.file.name }}
+        <button @click="handleFileDeleted(files[key])">remove</button>
+      </li>
     </ul>
   </div>
 </template>
@@ -27,21 +27,19 @@ export default {
   }),
 
   props: {
-   presignedUrlEndpoint: {
-     type: String,
-     required: false,
-     default: null,
-   },
-
-   presignedUrlEndpointCallback: {
-     type: Function,
-     required: false,
-   },
-
-   mimeTypes: {
-     type: Array,
-     required: false,
-   },
+    presignedUrlEndpoint: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    presignedUrlEndpointCallback: {
+      type: Function,
+      required: false,
+    },
+    mimeTypes: {
+      type: Array,
+      required: false,
+    },
   },
 
   mounted() {
@@ -53,13 +51,9 @@ export default {
   methods: {
     async handleFileDeleted(file) {
       try {
-
         await axios.delete(file.location);
-
         const index = this.files.findIndex(element => element === file);
-
         this.files.splice(index, 1);
-
       } catch (e) {
         throw e;
       }
