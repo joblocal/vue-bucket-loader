@@ -43,7 +43,7 @@ export default {
   },
 
   mounted() {
-    if (this.presignedUrlEndpoint === null && typeof this.presignedUrlEndpointCallback  !== 'function') {
+    if (this.presignedUrlEndpoint === null && typeof this.presignedUrlEndpointCallback !== 'function') {
       throw Error('vue-bucket-loader: Please provide an endpoint or a endpointCallback function');
     }
   },
@@ -73,7 +73,6 @@ export default {
 
         try {
           const presignedUrl = await this.getPresignedUrl(url);
-
           const formData = this.prepareForm(presignedUrl, fileWrapper.file);
 
           if (this.mimeTypes && this.checkMimeType(fileWrapper.file.type)) {
@@ -83,7 +82,6 @@ export default {
           } else {
             console.log('vue-bucket-loader: Please make sure, that your file has the correct mime type');
           }
-
         } catch (e) {
           throw e;
         }
@@ -95,7 +93,7 @@ export default {
 
       if (!url) {
         url = await this.presignedUrlEndpointCallback();
-        if (!url.then instanceof Function) {
+        if (typeof url.then !== 'function') {
           console.log('vue-bucket-loader: Cannot create presignedUrl request. Make sure that your endpoint configuration is valid');
         }
       }
@@ -108,7 +106,7 @@ export default {
     },
 
     async getPresignedUrl(url) {
-      return await axios.post(url);
+      return axios.post(url);
     },
 
     prepareForm(presignedUrl, file) {
@@ -123,7 +121,7 @@ export default {
     },
 
     async uploadFile(presignedUrl, formData, config) {
-      return await axios.post(presignedUrl.data.postEndpoint, formData, config);
+      return axios.post(presignedUrl.data.postEndpoint, formData, config);
     },
   },
 };

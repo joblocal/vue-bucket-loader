@@ -1,7 +1,7 @@
-import { mount } from 'vue-test-utils';
+import { mount } from '@vue/test-utils';
 import sinon from 'sinon';
 import axios from 'axios';
-import VueBucketLoader from './VueBucketLoader.vue';
+import VueBucketLoader from 'src/components/VueBucketLoader';
 
 let wrapper;
 let sandbox;
