@@ -6,65 +6,131 @@
        multiple
        @change="handleFileAdded($event.target.files)"
     >
+    <ul>
+     <li
+      v-for="(fileWrapper, key) in files"
+      :key="key"
+     >
+         {{ fileWrapper.file.name }}
+         <button @click="handleFileDeleted(files[key])">remove</button>
+     </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import { post } from 'axios';
+import axios from 'axios';
 
 export default {
+  data: () => ({
+    files: [],
+  }),
+
   props: {
-    endpoint: {
-      type: String,
-      required: true,
-    },
+   presignedUrlEndpoint: {
+     type: String,
+     required: false,
+     default: null,
+   },
+
+   presignedUrlEndpointCallback: {
+     type: Function,
+     required: false,
+   },
+
+   mimeTypes: {
+     type: Array,
+     required: false,
+   },
+  },
+
+  mounted() {
+    if (this.presignedUrlEndpoint === null && typeof this.presignedUrlEndpointCallback  !== 'function') {
+      throw Error('vue-bucket-loader: Please provide an endpoint or a endpointCallback function');
+    }
   },
 
   methods: {
+    async handleFileDeleted(file) {
+      try {
+
+        await axios.delete(file.location);
+
+        const index = this.files.findIndex(element => element === file);
+
+        this.files.splice(index, 1);
+
+      } catch (e) {
+        throw e;
+      }
+    },
+
     async handleFileAdded(fileList) {
-      if (this.endpoint) {
-        Object.keys(fileList).forEach(async (key) => {
-          const file = fileList[key];
-          const formData = new FormData();
-          const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+      this.$emit('fileAdded');
 
-          try {
-            const presignedUrl = await post(this.endpoint);
+      const url = await this.getPresignedUrlEndpoint();
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
-            Object.keys(presignedUrl.data.signature).forEach((key) => {
-              formData.append(key, presignedUrl.data.signature[key]);
-            });
+      Object.keys(fileList).forEach(async (key) => {
+        const fileWrapper = {
+          file: fileList[key],
+          location: null,
+        };
 
-            formData.append('file', file);
+        try {
+          const presignedUrl = await this.getPresignedUrl(url);
 
-            try {
+          const formData = this.prepareForm(presignedUrl, fileWrapper.file);
 
-              await post(presignedUrl.data.postEndpoint, formData, config);
-
-            } catch (e) {
-              console.log(e);
-            }
-
-          } catch (e) {
-            console.log(e);
+          if (this.mimeTypes && this.checkMimeType(fileWrapper.file.type)) {
+            const response = await this.uploadFile(presignedUrl, formData, config);
+            fileWrapper.location = response.headers.location;
+            this.files.push(fileWrapper);
+          } else {
+            console.log('vue-bucket-loader: Please make sure, that your file has the correct mime type');
           }
 
-        });
+        } catch (e) {
+          throw e;
+        }
+      });
+    },
+
+    async getPresignedUrlEndpoint() {
+      let url = this.presignedUrlEndpoint;
+
+      if (!url) {
+        url = await this.presignedUrlEndpointCallback();
+        if (!url.then instanceof Function) {
+          console.log('vue-bucket-loader: Cannot create presignedUrl request. Make sure that your endpoint configuration is valid');
+        }
       }
+
+      return url;
+    },
+
+    checkMimeType(type) {
+      return this.mimeTypes.includes(type);
+    },
+
+    async getPresignedUrl(url) {
+      return await axios.post(url);
+    },
+
+    prepareForm(presignedUrl, file) {
+      const formData = new FormData();
+
+      Object.keys(presignedUrl.data.signature).forEach((key) => {
+        formData.append(key, presignedUrl.data.signature[key]);
+      });
+
+      formData.append('file', file);
+      return formData;
+    },
+
+    async uploadFile(presignedUrl, formData, config) {
+      return await axios.post(presignedUrl.data.postEndpoint, formData, config);
     },
   },
 };
 </script>
-
-<style lang="css">
-  .vue-bucket-loader {
-    width: 100%;
-    height: 400px;
-  }
-
-  .vue-bucket-loader__input {
-    width: 100%;
-    height: 100%;
-    background: pink;
-  }
-</style>
