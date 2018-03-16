@@ -1,27 +1,19 @@
 import { mount } from '@vue/test-utils';
-import sinon from 'sinon';
 import axios from 'axios';
 import VueBucketLoader from 'src/components/VueBucketLoader';
+import { wrap } from 'module';
 
 let wrapper;
-let sandbox;
 
-const presignedUrlEndpoint = 'http://localhost';
-const presignedUrlEndpointReturnValue = 'http://invalid.localhost';
-const presignedUrlEndpointCallback = () => presignedUrlEndpointReturnValue;
+const signingUrl = 'http://localhost';
 
-function FormDataMock() {
-  this.append = jest.fn();
-}
-
-global.FormData = FormDataMock;
+jest.mock('axios');
 
 describe('VueBucketLoader display', () => {
   beforeEach(() => {
     wrapper = mount(VueBucketLoader, {
       propsData: {
-        presignedUrlEndpoint,
-        presignedUrlEndpointCallback,
+        signingUrl,
       },
     });
   });
@@ -29,201 +21,249 @@ describe('VueBucketLoader display', () => {
   test('matches snapshot using defaults', () => {
     expect(wrapper.element).toMatchSnapshot();
   });
-});
 
-describe('returns presigned endpoint', () => {
-  test('to return presignedUrlEndpoint prop', async () => {
-    wrapper = mount(VueBucketLoader, {
-      propsData: {
-        presignedUrlEndpoint,
-      },
+  test('matches snapshot showing file list', () => {
+    wrapper.setData({
+      files: [
+        {
+          file: {
+            name: 'file1.jpg',
+          },
+        },
+        {
+          file: {
+            name: 'file2.jpg',
+          },
+        },
+      ],
     });
-
-    expect(await wrapper.vm.getPresignedUrlEndpoint())
-      .toBe(presignedUrlEndpoint);
-  });
-
-  test('to return value of presignedUrlEndpointCallback', async () => {
-    wrapper = mount(VueBucketLoader, {
-      propsData: {
-        presignedUrlEndpointCallback,
-      },
-    });
-
-    expect(await wrapper.vm.getPresignedUrlEndpoint())
-      .toBe(presignedUrlEndpointReturnValue);
-  });
-});
-
-describe('to call getPresignedUrl', () => {
-  beforeEach(() => {
-    wrapper = mount(VueBucketLoader, {
-      propsData: {
-        presignedUrlEndpoint,
-      },
-    });
-  });
-
-  test('to call getPresignedUrl with presignedUrlEndpoint', async () => {
-    const mock = sinon.mock(axios);
-
-    mock.expects('post')
-      .once()
-      .withExactArgs(presignedUrlEndpoint);
-
-    wrapper.vm.getPresignedUrl(presignedUrlEndpoint);
-
-    mock.verify();
-  });
-});
-
-describe('to call uploadFile', () => {
-  beforeEach(() => {
-    wrapper = mount(VueBucketLoader, {
-      propsData: {
-        presignedUrlEndpoint,
-      },
-    });
-  });
-
-  test('to call uploadFile with expected data', async () => {
-    const presignedUrl = {
-      data: {
-        postEndpoint: 'http://invalid.postEndpoint',
-      },
-    };
-
-    const formData = {};
-    const config = {};
-
-    const mock = sinon.mock(axios);
-
-    mock.expects('post')
-      .once()
-      .withExactArgs(presignedUrl.data.postEndpoint, formData, config);
-
-    wrapper.vm.uploadFile(presignedUrl, formData, config);
-
-    mock.verify();
-  });
-});
-
-describe('handle file added', () => {
-  const firstFile = {
-    file: {
-      name: 'Lorem First',
-      type: 'valid',
-    },
-    location: 'http://bucket/first',
-  };
-
-  const secondFile = {
-    file: {
-      name: 'Lorem Second',
-      type: 'valid',
-    },
-    location: 'http://bucket/second',
-  };
-
-  const files = {
-    0: firstFile,
-    1: secondFile,
-  };
-
-  beforeEach(() => {
-    wrapper = mount(VueBucketLoader, {
-      propsData: {
-        presignedUrlEndpoint,
-      },
-    });
-  });
-
-  test('to call getPresignedUrlEndpoint', async () => {
-    sandbox = sinon.sandbox.create();
-    const getPresignedUrlEndpointStub = sandbox.stub();
-
-    wrapper.setMethods({
-      getPresignedUrlEndpoint: getPresignedUrlEndpointStub,
-    });
-
-    wrapper.vm.handleFileAdded({});
-
-    expect(getPresignedUrlEndpointStub.called).toBeTruthy();
-  });
-
-  test('to check mimeType is valid', async () => {
-    wrapper.setProps({
-      mimeTypes: ['valid'],
-    });
-
-    expect(wrapper.vm.checkMimeType(firstFile.file.type)).toBeTruthy();
-  });
-
-  test('to check mimeType is invalid', async () => {
-    wrapper.setProps({
-      mimeTypes: ['invalid'],
-    });
-
-    expect(wrapper.vm.checkMimeType(firstFile.file.type)).toBeFalsy();
-  });
-
-  test('matches snapshot after file was added', async () => {
-    await wrapper.vm.handleFileAdded(files);
     expect(wrapper.element).toMatchSnapshot();
   });
+});
 
-  afterEach(() => {
-    sandbox.restore();
+describe('requests presignedUrl', () => {
+  test('to call with signingUrl type String', () => {
+    wrapper = mount(VueBucketLoader, {
+      propsData: {
+        signingUrl,
+      },
+    });
+
+    wrapper.vm.getPresignedUrl();
+    expect(axios.post).toBeCalledWith(signingUrl);
+  });
+
+  test('to call with signingUrl type Function', () => {
+    wrapper = mount(VueBucketLoader, {
+      propsData: {
+        signingUrl: () => signingUrl,
+      },
+    });
+
+    wrapper.vm.getPresignedUrl();
+    expect(axios.post).toBeCalledWith(signingUrl);
   });
 });
 
-describe('handle file deleted', () => {
-  const firstFile = {
-    file: {
-      name: 'Lorem First',
-      type: 'valid',
-    },
-    location: 'http://bucket/first',
-  };
-
-  const secondFile = {
-    file: {
-      name: 'Lorem Second',
-      type: 'valid',
-    },
-    location: 'http://bucket/second',
-  };
-
+describe('adding files', () => {
   const files = [
-    firstFile,
-    secondFile,
+    'file 1',
+    'file 2',
+  ];
+  const fileList = {
+    0: files[0],
+    1: files[1],
+  };
+  beforeEach(() => {
+    wrapper = mount(VueBucketLoader, {
+      propsData: {
+        signingUrl,
+      },
+    });
+  });
+
+  test('to call handleFilesAdded on change', () => {
+    const handleFilesAdded = jest.fn();
+    wrapper.setMethods({
+      handleFilesAdded,
+    });
+    wrapper.find('input[type=file]').trigger('change');
+    expect(handleFilesAdded).toBeCalled();
+  });
+
+  test('to emit "files-added-before" event', () => {
+    wrapper.vm.handleFilesAdded(fileList);
+    expect(wrapper.emitted('files-added-before')[0][0])
+      .toEqual({ files });
+  });
+
+  test('to call beforeUpload for each file', () => {
+    const beforeUpload = jest.fn();
+    wrapper.setProps({
+      beforeUpload,
+    });
+    wrapper.vm.handleFilesAdded(fileList);
+    expect(beforeUpload).toHaveBeenCalledTimes(2);
+  });
+
+  test('to call uploadFile for each file', () => {
+    const uploadFile = jest.fn();
+    wrapper.setMethods({
+      uploadFile,
+    });
+    wrapper.vm.handleFilesAdded(fileList);
+    expect(uploadFile).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('upload file', () => {
+  const postEndpoint = 's3://localhost/postEndpoint';
+  const location = 's3://localhost/file.jpg';
+  const signature = { key: 'value' };
+  const file = { name: 'file.jpg' };
+  const formData = new FormData();
+
+  formData.append('key', 'value');
+  formData.append('file', file);
+
+  beforeEach(() => {
+    wrapper = mount(VueBucketLoader, {
+      propsData: {
+        signingUrl,
+      },
+    });
+
+    const getPresignedUrl = jest.fn()
+      .mockReturnValue({
+        data: {
+          postEndpoint,
+          signature,
+        },
+      });
+
+    axios.post = jest.fn()
+      .mockReturnValue({
+        headers: {
+          location,
+        },
+      });
+
+    wrapper.setMethods({
+      getPresignedUrl,
+    });
+  });
+
+  test('to upload file via post', async () => {
+    await wrapper.vm.uploadFile(file);
+
+    expect(axios.post).toBeCalledWith(
+      postEndpoint,
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } },
+    );
+  });
+
+  test('to add file to files array', async () => {
+    await wrapper.vm.uploadFile(file);
+
+    expect(wrapper.vm.files).toEqual([
+      {
+        file,
+        location,
+      },
+    ]);
+  });
+});
+
+describe('deleting files', () => {
+  const files = [
+    {
+      file: {
+        name: 'file1.jpg',
+      },
+      location: 's3://localhost/file1.jpg',
+    },
+    {
+      file: {
+        name: 'file2.jpg',
+      },
+      location: 's3://localhost/file2.jpg',
+    },
   ];
 
   beforeEach(() => {
     wrapper = mount(VueBucketLoader, {
       propsData: {
-        presignedUrlEndpointCallback,
+        signingUrl,
       },
+      data: () => ({
+        files: Array.from(files),
+      }),
     });
-
-    wrapper.setData({ files });
   });
 
-  test('to call delete request with file location', async () => {
-    const mock = sinon.mock(axios);
+  test('to call handleFileDeleted on click', () => {
+    const handleFileDeleted = jest.fn();
+    wrapper.setMethods({ handleFileDeleted });
+    wrapper.find('li button').trigger('click');
 
-    mock.expects('delete')
-      .once()
-      .withExactArgs(firstFile.location);
-
-    wrapper.find('li button')
-      .trigger('click');
-
-    mock.verify();
+    expect(handleFileDeleted).toHaveBeenCalledWith(files[0]);
   });
 
-  test('matches snapshot after file was deleted', () => {
-    wrapper.vm.handleFileDeleted(files[0]);
-    expect(wrapper.element).toMatchSnapshot();
+  test('to emit "delete-file-before" event', () => {
+    const file = files[0];
+    wrapper.vm.handleFileDeleted(file);
+
+    expect(wrapper.emitted('delete-file-before')[0][0])
+      .toEqual({ file });
+  });
+
+  test('to send delete request', () => {
+    const file = files[0];
+    wrapper.vm.handleFileDeleted(file);
+
+    expect(axios.delete).toHaveBeenLastCalledWith(file.location);
+  });
+
+  test('to remove file from files array', async () => {
+    const file = files[0];
+    await wrapper.vm.handleFileDeleted(file);
+
+    expect(wrapper.vm.files).toEqual([
+      files[1],
+    ]);
+  });
+
+  test('to emit "delete-file-success" event', async () => {
+    const file = files[0];
+    await wrapper.vm.handleFileDeleted(file);
+
+    expect(wrapper.emitted('delete-file-success')[0][0])
+      .toEqual({ file });
+  });
+
+  test('to emit "delete-file-error" event', async () => {
+    const file = files[0];
+    const error = 'Could not delete';
+
+    axios.delete.mockReturnValue(Promise.reject(error));
+    try {
+      await wrapper.vm.handleFileDeleted(file);
+    } catch (e) {} // eslint-disable-line
+
+    expect(wrapper.emitted('delete-file-error')[0][0])
+      .toEqual({ file, error });
+  });
+
+  test('to throw error', async () => {
+    const file = files[0];
+    const error = 'Could not delete';
+
+    axios.delete.mockReturnValue(Promise.reject(error));
+    try {
+      await wrapper.vm.handleFileDeleted(file);
+    } catch (e) {
+      expect(e).toEqual(error);
+    }
   });
 });

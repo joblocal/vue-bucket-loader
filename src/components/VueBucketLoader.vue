@@ -4,15 +4,17 @@
       class="vue-bucket-loader__input"
       type="file"
       multiple
-      @change="handleFileAdded($event.target.files)"
-    >
+      @change="handleFilesAdded($event.target.files)"
+    />
     <ul>
       <li
         v-for="(fileWrapper, key) in files"
         :key="key"
       >
         {{ fileWrapper.file.name }}
-        <button @click="handleFileDeleted(files[key])">remove</button>
+        <button @click="handleFileDeleted(fileWrapper)">
+          remove
+        </button>
       </li>
     </ul>
   </div>
@@ -27,101 +29,93 @@ export default {
   }),
 
   props: {
-    presignedUrlEndpoint: {
-      type: String,
-      required: false,
-      default: null,
+    signingUrl: {
+      type: [String, Function],
+      required: true,
     },
-    presignedUrlEndpointCallback: {
+    beforeUpload: {
       type: Function,
       required: false,
+      default: () => true,
     },
-    mimeTypes: {
-      type: Array,
-      required: false,
-    },
-  },
-
-  mounted() {
-    if (this.presignedUrlEndpoint === null && typeof this.presignedUrlEndpointCallback !== 'function') {
-      throw Error('vue-bucket-loader: Please provide an endpoint or a endpointCallback function');
-    }
   },
 
   methods: {
-    async handleFileDeleted(file) {
-      try {
-        await axios.delete(file.location);
-        const index = this.files.findIndex(element => element === file);
-        this.files.splice(index, 1);
-      } catch (e) {
-        throw e;
-      }
-    },
+    handleFilesAdded(fileList) {
+      const files = Object.keys(fileList).map(key => fileList[key]);
+      this.$emit('files-added-before', { files });
 
-    async handleFileAdded(fileList) {
-      this.$emit('fileAdded');
-
-      const url = await this.getPresignedUrlEndpoint();
-      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-      Object.keys(fileList).forEach(async (key) => {
-        const fileWrapper = {
-          file: fileList[key],
-          location: null,
-        };
-
-        try {
-          const presignedUrl = await this.getPresignedUrl(url);
-          const formData = this.prepareForm(presignedUrl, fileWrapper.file);
-
-          if (this.mimeTypes && this.checkMimeType(fileWrapper.file.type)) {
-            const response = await this.uploadFile(presignedUrl, formData, config);
-            fileWrapper.location = response.headers.location;
-            this.files.push(fileWrapper);
-          } else {
-            console.log('vue-bucket-loader: Please make sure, that your file has the correct mime type');
-          }
-        } catch (e) {
-          throw e;
+      files.forEach((file) => {
+        if (this.beforeUpload(file)) {
+          this.uploadFile(file);
         }
       });
     },
 
-    async getPresignedUrlEndpoint() {
-      let url = this.presignedUrlEndpoint;
+    async uploadFile(file) {
+      const {
+        data: {
+          postEndpoint,
+          signature,
+        },
+      } = await this.getPresignedUrl();
 
-      if (!url) {
-        url = await this.presignedUrlEndpointCallback();
-        if (typeof url.then !== 'function') {
-          console.log('vue-bucket-loader: Cannot create presignedUrl request. Make sure that your endpoint configuration is valid');
-        }
-      }
-
-      return url;
-    },
-
-    checkMimeType(type) {
-      return this.mimeTypes.includes(type);
-    },
-
-    async getPresignedUrl(url) {
-      return axios.post(url);
-    },
-
-    prepareForm(presignedUrl, file) {
       const formData = new FormData();
-
-      Object.keys(presignedUrl.data.signature).forEach((key) => {
-        formData.append(key, presignedUrl.data.signature[key]);
+      Object.keys(signature).forEach((key) => {
+        formData.append(key, signature[key]);
       });
 
       formData.append('file', file);
-      return formData;
+
+      const {
+        headers: {
+          location,
+        },
+      } = await axios.post(
+        postEndpoint,
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } },
+      );
+
+      this.files.push({
+        file,
+        location,
+      });
     },
 
-    async uploadFile(presignedUrl, formData, config) {
-      return axios.post(presignedUrl.data.postEndpoint, formData, config);
+    /**
+     * When a file should be deleted we remove it from s3
+     * and the files array
+    */
+    async handleFileDeleted(file) {
+      this.$emit('delete-file-before', { file });
+      try {
+        // delete the file from s3
+        await axios.delete(file.location);
+        // remove the item from the files array
+        this.files.splice(
+          this.files.findIndex(item => item === file),
+          1,
+        );
+        this.$emit('delete-file-success', { file });
+      } catch (error) {
+        this.$emit('delete-file-error', { file, error });
+        throw error;
+      }
+    },
+
+    /**
+     * In order to upload to s3 without publishing your AWS credentials,
+     * we need a backend service which provides a presigned url:
+     * https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html
+    */
+    getPresignedUrl() {
+      let url = this.signingUrl;
+
+      if (typeof this.signingUrl === 'function') {
+        url = this.signingUrl();
+      }
+      return axios.post(url);
     },
   },
 };
