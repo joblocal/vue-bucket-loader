@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VueBucketLoader wrapper component  matches snapshot using defaults 1`] = `
+exports[`VueBucketLoader display matches snapshot showing file list 1`] = `
 <div
   class="vue-bucket-loader"
 >
@@ -9,5 +9,34 @@ exports[`VueBucketLoader wrapper component  matches snapshot using defaults 1`] 
     multiple="multiple"
     type="file"
   />
+   
+  <ul>
+    <li>
+      
+      file1.jpg
+      
+      <button />
+    </li>
+    <li>
+      
+      file2.jpg
+      
+      <button />
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`VueBucketLoader display matches snapshot using defaults 1`] = `
+<div
+  class="vue-bucket-loader"
+>
+  <input
+    class="vue-bucket-loader__input"
+    multiple="multiple"
+    type="file"
+  />
+   
+  <ul />
 </div>
 `;
