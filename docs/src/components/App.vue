@@ -6,7 +6,7 @@
     <h2>Basic Implementation</h2>
     <p>When your presigning endpoint is the same for any upload:</p>
     <code>
-      {{ example }}
+      {{ staticEndpointExample }}
     </code>
     <VueBucketLoader
       :signingUrl="'https://httpbin.org/post'"
@@ -14,14 +14,18 @@
 
     <h2>Url generation using callback function</h2>
     <p>When your presinging endpoint must be generated dynamically:</p>
-    <code>...</code>
+    <code>
+      {{ dynamicEndpointExample }}
+    </code>
     <VueBucketLoader
       :signingUrl="'https://httpbin.org/post'"
     />
 
-    <h2>Checking Mime Types</h2>
-    <p>...</p>
-    <code>...</code>
+    <h2>Checking MIME-Types</h2>
+    <p>When you want your Files to checked for MIME-Types</p>
+    <code>
+      {{ mimeTypeCheckExample }}
+    </code>
     <VueBucketLoader
       :signingUrl="'https://httpbin.org/post'"
       :beforeUpload="checkMimeType"
@@ -39,10 +43,22 @@ export default {
   },
 
   data: () => ({
-    example: `
+    staticEndpointExample: `
       <VueBucketLoader
-        :presignedUrlEndpoint="'https://httpbin.org/post'"
+        :signingUrl="'https://httpbin.org/post'"
       />`,
+
+    dynamicEndpointExample: `
+      <VueBucketLoader
+        :signungUrl="() => 'generatedEndpoint'">
+    `,
+
+    mimeTypeCheckExample: `
+      <VueBucketLoader
+        :signungUrl="'https://httpbin.org/post'"
+        :beforeUpload="(file) => checkYourMimeType(file)"
+      />
+    `,
   }),
 
   methods: {
