@@ -62,6 +62,18 @@ describe('requests presignedUrl', () => {
     wrapper.vm.getPresignedUrl();
     expect(axios.post).toBeCalledWith(signingUrl);
   });
+
+  test('to await a Promise resolve', async () => {
+    wrapper = mount(VueBucketLoader, {
+      propsData: {
+        signingUrl: () => Promise.resolve(signingUrl),
+      },
+    });
+
+    await wrapper.vm.getPresignedUrl();
+
+    expect(axios.post).toBeCalledWith(signingUrl);
+  });
 });
 
 describe('adding files', () => {
