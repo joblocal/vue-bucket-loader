@@ -5,9 +5,9 @@
   "license": "MIT",
   "author": "Joblocal GmbH",
   "scripts": {
-    "dev": "./node_modules/.bin/webpack-dev-server --config ./docs/webpack.config.babel.js --open --hot",
+    "dev": "./node_modules/.bin/webpack-dev-server --open --hot",
     "prebuild": "rm -rf dist",
-    "build": "npm run validate && webpack",
+    "build": "npm run validate && webpack -p",
     "test": "./node_modules/.bin/jest",
     "test:watch": "npm test -- --watch --onlyChanged",
     "test:coverage": "npm test -- --coverage",
@@ -42,7 +42,8 @@
     "vue-template-compiler": "^2.5.13",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.10",
-    "webpack-dev-server": "^3.1.0"
+    "webpack-dev-server": "^3.1.0",
+    "webpack-merge": "^4.1.2"
   },
   "pre-push": {
     "run": "validate",

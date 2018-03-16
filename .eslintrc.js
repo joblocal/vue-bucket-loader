@@ -35,6 +35,16 @@ module.exports = {
       'vue': 'never',
     }],
 
+    // don't require devDependencies in build folder
+    'import/no-extraneous-dependencies': ['error', {
+      'devDependencies': [
+        'build/*.js',
+        '**/*.test.js',
+        '**/*.spec.js',
+        'webpack.config.babel.js',
+      ],
+    }],
+
     // allow debugger/console during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
