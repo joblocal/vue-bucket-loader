@@ -92,7 +92,7 @@ describe('adding files', () => {
 
   test('to emit "files-added-before" event', () => {
     wrapper.vm.handleFilesAdded(fileList);
-    expect(wrapper.emitted('files-added-before')[0][0])
+    expect(wrapper.emitted('add-files-before')[0][0])
       .toEqual({ files });
   });
 

@@ -15,21 +15,13 @@ exports[`VueBucketLoader display matches snapshot showing file list 1`] = `
       
       file1.jpg
       
-      <button>
-        
-        remove
-      
-      </button>
+      <button />
     </li>
     <li>
       
       file2.jpg
       
-      <button>
-        
-        remove
-      
-      </button>
+      <button />
     </li>
   </ul>
 </div>

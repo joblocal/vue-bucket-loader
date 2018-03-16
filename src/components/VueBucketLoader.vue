@@ -13,7 +13,7 @@
       >
         {{ fileWrapper.file.name }}
         <button @click="handleFileDeleted(fileWrapper)">
-          remove
+          <slot></slot>
         </button>
       </li>
     </ul>
@@ -43,7 +43,7 @@ export default {
   methods: {
     handleFilesAdded(fileList) {
       const files = Object.keys(fileList).map(key => fileList[key]);
-      this.$emit('files-added-before', { files });
+      this.$emit('add-files-before', { files });
 
       files.forEach((file) => {
         if (this.beforeUpload(file)) {
@@ -109,11 +109,11 @@ export default {
      * we need a backend service which provides a presigned url:
      * https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html
     */
-    getPresignedUrl() {
+    async getPresignedUrl() {
       let url = this.signingUrl;
 
       if (typeof this.signingUrl === 'function') {
-        url = this.signingUrl();
+        url = await this.signingUrl();
       }
       return axios.post(url);
     },
