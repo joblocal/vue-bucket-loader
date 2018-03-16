@@ -1,3 +1,3 @@
-import VueBucketLoader from './components/VueBucketLoader.vue';
+import VueBucketLoader from './components/VueBucketLoader';
 
 export default VueBucketLoader;
