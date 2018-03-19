@@ -11,7 +11,6 @@ const config = {
 
   output: {
     filename: 'index.js',
-    libraryTarget: 'commonjs2',
   },
 
   resolve: {
@@ -27,6 +26,11 @@ const config = {
         test: /\.(js|vue)$/,
         enforce: 'pre',
         use: 'eslint-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.js$/,
+        use: 'babel-loader',
         exclude: /node_modules/,
       },
       {
