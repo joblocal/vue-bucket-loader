@@ -54,10 +54,6 @@
       "src/**/*.{js,vue}",
       "!src/**/*.(test|spec).js"
     ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/src/index.js"
-    ],
     "coverageThreshold": {
       "global": {
         "statements": 98,
@@ -67,17 +63,12 @@
       }
     },
     "moduleNameMapper": {
-      "^components/(.+)$": "<rootDir>/src/components/$1.vue",
-      "^src/(.*/[A-Z].+)$": "<rootDir>/src/$1.vue",
-      "^src/(.+)$": "<rootDir>/src/$1"
+      "^src/(.*/[A-Z].+)$": "<rootDir>/src/$1.vue"
     },
     "transform": {
       "^.*\\.(vue)$": "<rootDir>/node_modules/vue-jest",
       "^.+\\.(js)$": "<rootDir>/node_modules/babel-jest"
-    },
-    "setupFiles": [
-      "<rootDir>/config/jest.js"
-    ]
+    }
   },
   "engines": {
     "node": ">= 8.0.0"
