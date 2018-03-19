@@ -8,7 +8,7 @@ const isProd = process.argv.indexOf('-p') !== -1;
 const config = {
   mode: isProd ? 'production' : 'development',
 
-  entry: resolve('src/index.js'),
+  entry: isProd ? resolve('src/index.js') : resolve('docs/src/index.js'),
 
   output: {
     filename: '[name].js',
