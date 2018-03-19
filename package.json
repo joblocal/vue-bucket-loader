@@ -46,7 +46,6 @@
     "jest": "^22.3.0",
     "npm-run-all": "^4.1.2",
     "pre-push": "^0.1.1",
-    "uglifyjs-webpack-plugin": "^1.2.4",
     "vue": "^2.5.13",
     "vue-jest": "^2.2.1",
     "vue-loader": "^14.2.1",

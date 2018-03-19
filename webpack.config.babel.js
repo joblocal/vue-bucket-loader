@@ -1,6 +1,5 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const resolve = file => path.resolve(__dirname, file);
 const isProd = process.argv.indexOf('-p') !== -1;
@@ -53,13 +52,5 @@ const config = {
     contentBase: resolve('docs'),
   },
 };
-
-if (isProd) {
-  config.plugins.push(new UglifyJsPlugin({
-    uglifyOptions: {
-      mangle: true,
-    },
-  }));
-}
 
 export default config;
