@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import axios from 'axios';
+
 import VueBucketLoader from 'src/components/VueBucketLoader';
 
 let wrapper;

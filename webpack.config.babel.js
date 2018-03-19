@@ -22,6 +22,9 @@ const config = {
 
   resolve: {
     extensions: ['.vue', '.js', '.json'],
+    alias: {
+      src: resolve('src'),
+    },
   },
 
   module: {
@@ -52,13 +55,11 @@ const config = {
 };
 
 if (isProd) {
-  config.plugins.push(
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        mangle: true,
-      },
-    }),
-  )
+  config.plugins.push(new UglifyJsPlugin({
+    uglifyOptions: {
+      mangle: true,
+    },
+  }));
 }
 
 export default config;
