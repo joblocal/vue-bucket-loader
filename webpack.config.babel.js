@@ -10,9 +10,8 @@ const config = {
   entry: isProd ? resolve('src/index.js') : resolve('docs/src/index.js'),
 
   output: {
-    filename: '[name].js',
-    library: 'VueBucketLoader',
-    libraryTarget: 'umd',
+    filename: 'index.js',
+    libraryTarget: 'commonjs2',
   },
 
   resolve: {
