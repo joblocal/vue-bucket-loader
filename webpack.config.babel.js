@@ -1,18 +1,27 @@
-import merge from 'webpack-merge';
-import resolve from './build/webpack.utils';
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
-import prodConfig from './build/webpack.prod.config';
-import docsConfig from './build/webpack.docs.config';
-
+const resolve = file => path.resolve(__dirname, file);
 const isProd = process.argv.indexOf('-p') !== -1;
 
-const base = {
+const config = {
+  mode: isProd ? 'production' : 'development',
+
+  entry: resolve('src/index.js'),
+
+  output: {
+    filename: '[name].js',
+    library: 'VueBucketLoader',
+    libraryTarget: 'umd',
+
+    // used to prevent window object in resulting library code
+    // https://github.com/webpack/webpack/issues/6525
+    globalObject: 'this',
+  },
+
   resolve: {
     extensions: ['.vue', '.js', '.json'],
-    alias: {
-      src: resolve('../src'),
-      components: resolve('../src/components'),
-    },
   },
 
   module: {
@@ -29,6 +38,27 @@ const base = {
       },
     ],
   },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: resolve('docs/index.html'),
+      inject: true,
+    }),
+  ],
+
+  devServer: {
+    contentBase: resolve('docs'),
+  },
 };
 
-module.exports = merge(base, isProd ? prodConfig : docsConfig);
+if (isProd) {
+  config.plugins.push(
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        mangle: true,
+      },
+    }),
+  )
+}
+
+export default config;
