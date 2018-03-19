@@ -4,9 +4,13 @@
   "main": "./dist/main.js",
   "license": "MIT",
   "author": "Joblocal GmbH",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "webpack-dev-server --open --hot",
     "prebuild": "rm -rf dist && npm run validate",
+    "prepublish": "npm run build",
     "build": "webpack -p",
     "test": "jest src",
     "test:watch": "npm test -- --watch --onlyChanged",
