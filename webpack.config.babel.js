@@ -11,6 +11,12 @@ const config = {
 
   output: {
     filename: 'index.js',
+    libraryTarget: 'umd',
+    library: 'VueBucketLoader',
+
+    // used to prevent window object in resulting library code
+    // https://github.com/webpack/webpack/issues/6525
+    globalObject: 'this',
   },
 
   resolve: {
