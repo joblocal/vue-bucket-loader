@@ -5,7 +5,14 @@
   "license": "MIT",
   "author": "Joblocal GmbH",
   "files": [
-    "dist"
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "vue",
+    "AWS S3",
+    "file upload",
+    "SSR"
   ],
   "scripts": {
     "start": "webpack-dev-server --open --hot",
