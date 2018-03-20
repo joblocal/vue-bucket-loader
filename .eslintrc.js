@@ -20,11 +20,7 @@ module.exports = {
 
   // check if imports actually resolve
   settings: {
-    'import/resolver': {
-      webpack: {
-        config: 'webpack.config.babel.js',
-      },
-    },
+    'import/resolver': 'webpack',
   },
 
   // add your custom rules here
@@ -33,16 +29,6 @@ module.exports = {
     'import/extensions': ['error', 'always', {
       'js': 'never',
       'vue': 'never',
-    }],
-
-    // don't require devDependencies in build folder
-    'import/no-extraneous-dependencies': ['error', {
-      'devDependencies': [
-        'build/*.js',
-        '**/*.test.js',
-        '**/*.spec.js',
-        'webpack.config.babel.js',
-      ],
     }],
 
     // allow debugger/console during development
