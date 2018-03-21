@@ -92,7 +92,7 @@ $ yarn dev
 * [Jest Api](https://facebook.github.io/jest/docs/en/api.html)
 
 ## Contributing
-Please read through our [contributing guidelines](https://github.com/joblocal/vue-bucket-loader/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and feature requests.
+Please read through our [contributing guidelines](https://github.com/joblocal/vue-bucket-loader/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and feature requests.
 
 
 ## Authors
