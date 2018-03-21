@@ -23,9 +23,14 @@ After installing this package you can use it as followed.
 
 ```javascript
 <template>
-  <VueBucketLoader
-    :signungUrl="http://localhost/your/endpoint/goes/here"
-  />
+  <VueBucketLoader :signungUrl="http://localhost/your/endpoint/goes/here" >
+    <template
+      slot="btn-item"
+      slot-scope="props"
+    >
+      <span>your content goes here {{ props.item.someParameter }}</span>
+   </template>
+  </VueBucketLoader>
 </template>
 
 <script>
@@ -92,7 +97,7 @@ $ yarn dev
 * [Jest Api](https://facebook.github.io/jest/docs/en/api.html)
 
 ## Contributing
-Please read through our [contributing guidelines](https://github.com/joblocal/vue-bucket-loader/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and feature requests.
+Please read through our [contributing guidelines](https://github.com/joblocal/vue-bucket-loader/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and feature requests.
 
 
 ## Authors
