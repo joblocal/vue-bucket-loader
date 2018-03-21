@@ -64,7 +64,7 @@
       ref="customFileItemBucketLoader"
     >
       <li
-        slot="listItem"
+        slot="list-item"
         slot-scope="props"
       >
         {{ props.item.file.name }}
@@ -120,7 +120,7 @@ export default {
         ref="customFileItemBucketLoader"
       >
         <li
-          slot="listItem"
+          slot="list-item"
           slot-scope="props"
         >
           {{ props.item.file.name }}
