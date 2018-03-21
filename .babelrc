@@ -4,12 +4,8 @@
     "stage-2"
   ],
 
-  "env": {
-    "test": {
-      "plugins": [
-        "transform-runtime"
-      ]
-    }
-  }
+  "plugins": [
+    "transform-runtime"
+  ]
 }
 
