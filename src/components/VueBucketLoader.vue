@@ -20,6 +20,15 @@
         </li>
       </slot>
     </ul>
+
+    <label class="vue-bucket-loader__label">
+      <input
+        class="vue-bucket-loader__input"
+        type="file"
+        multiple
+        @change="handleFilesAdded($event.target.files)"
+      />
+    </label>
   </div>
 </template>
 

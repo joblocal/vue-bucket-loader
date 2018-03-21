@@ -19,7 +19,7 @@ $ npm install vue-bucket-loader
 ```
 
 ### Usage
-After installing this package you can use it as followed.
+After installing the package you can use it as follows.
 
 ```javascript
 <template>
