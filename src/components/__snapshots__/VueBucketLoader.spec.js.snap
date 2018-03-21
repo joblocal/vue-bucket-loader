@@ -13,15 +13,23 @@ exports[`VueBucketLoader display matches snapshot showing file list 1`] = `
   <ul>
     <li>
       
-      file1.jpg
-      
-      <button />
+        file1.jpg
+        
+      <button>
+        
+          delete
+        
+      </button>
     </li>
     <li>
       
-      file2.jpg
-      
-      <button />
+        file2.jpg
+        
+      <button>
+        
+          delete
+        
+      </button>
     </li>
   </ul>
 </div>
@@ -37,6 +45,6 @@ exports[`VueBucketLoader display matches snapshot using defaults 1`] = `
     type="file"
   />
    
-  <ul />
+  <!---->
 </div>
 `;
