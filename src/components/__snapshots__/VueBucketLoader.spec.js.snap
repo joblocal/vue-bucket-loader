@@ -4,26 +4,30 @@ exports[`VueBucketLoader display matches snapshot showing file list 1`] = `
 <div
   class="vue-bucket-loader"
 >
-  <input
-    class="vue-bucket-loader__input"
-    multiple="multiple"
-    type="file"
-  />
-   
   <ul>
     <li>
       
       file1.jpg
-      
+     
       <button />
     </li>
     <li>
       
       file2.jpg
-      
+     
       <button />
     </li>
   </ul>
+   
+  <label
+    class="vue-bucket-loader__label"
+  />
+   
+  <input
+    class="vue-bucket-loader__input"
+    multiple="multiple"
+    type="file"
+  />
 </div>
 `;
 
@@ -31,12 +35,16 @@ exports[`VueBucketLoader display matches snapshot using defaults 1`] = `
 <div
   class="vue-bucket-loader"
 >
+  <ul />
+   
+  <label
+    class="vue-bucket-loader__label"
+  />
+   
   <input
     class="vue-bucket-loader__input"
     multiple="multiple"
     type="file"
   />
-   
-  <ul />
 </div>
 `;

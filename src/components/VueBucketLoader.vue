@@ -1,22 +1,28 @@
 <template>
   <div class="vue-bucket-loader">
+    <ul>
+      <li
+       v-for="(fileWrapper, key) in files"
+       :key="key"
+       >
+        {{ fileWrapper.file.name }}
+       <button @click="handleFileDeleted(fileWrapper)">
+         <slot
+          name="btn-item"
+          :item="fileWrapper.file"
+          ></slot>
+       </button>
+      </li>
+    </ul>
+
+    <label class="vue-bucket-loader__label"></label>
+
     <input
       class="vue-bucket-loader__input"
       type="file"
       multiple
       @change="handleFilesAdded($event.target.files)"
     />
-    <ul>
-      <li
-        v-for="(fileWrapper, key) in files"
-        :key="key"
-      >
-        {{ fileWrapper.file.name }}
-        <button @click="handleFileDeleted(fileWrapper)">
-          <slot></slot>
-        </button>
-      </li>
-    </ul>
   </div>
 </template>
 
