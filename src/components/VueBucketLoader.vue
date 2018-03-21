@@ -1,11 +1,5 @@
 <template>
   <div class="vue-bucket-loader">
-    <input
-      class="vue-bucket-loader__input"
-      type="file"
-      multiple
-      @change="handleFilesAdded($event.target.files)"
-    />
     <ul v-if="files.length > 0">
       <slot
         name="item"
