@@ -1,11 +1,5 @@
 <template>
   <div class="vue-bucket-loader">
-    <input
-      class="vue-bucket-loader__input"
-      type="file"
-      multiple
-      @change="handleFilesAdded($event.target.files)"
-    />
     <ul>
       <li
         v-for="(fileWrapper, key) in files"
@@ -17,6 +11,15 @@
         </button>
       </li>
     </ul>
+
+    <label class="vue-bucket-loader__label">
+      <input
+        class="vue-bucket-loader__input"
+        type="file"
+        multiple
+        @change="handleFilesAdded($event.target.files)"
+      />
+    </label>
   </div>
 </template>
 
