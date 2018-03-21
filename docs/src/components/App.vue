@@ -25,6 +25,21 @@
       :signingUrl="'https://httpbin.org/post'"
     />
 
+    <h2>Custom label</h2>
+    <p>Provide a customized label using the "label" slot.</p>
+    <pre>
+      <code>
+        {{ customLabelExample }}
+      </code>
+    </pre>
+    <VueBucketLoader
+      :signungUrl="'https://httpbin.org/post'"
+    >
+      <template slot="label">
+        Upload your files:
+      </template>
+    </VueBucketLoader>
+
     <h2>Checking MIME-Types</h2>
     <p>When you want your Files to checked for MIME-Types</p>
     <pre>
@@ -80,6 +95,16 @@ export default {
       <VueBucketLoader
         :signungUrl="() => 'generatedEndpoint'"
       />
+    `,
+
+    customLabelExample: `
+      <VueBucketLoader
+        :signungUrl="'https://httpbin.org/post'"
+      >
+        <template slot="label">
+          Upload your files:
+        </template>
+      </VueBucketLoader>
     `,
 
     mimeTypeCheckExample: `

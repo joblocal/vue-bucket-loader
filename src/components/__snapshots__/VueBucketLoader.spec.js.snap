@@ -30,6 +30,7 @@ exports[`VueBucketLoader display matches snapshot showing file list 1`] = `
   <label
     class="vue-bucket-loader__label"
   >
+     
     <input
       class="vue-bucket-loader__input"
       multiple="multiple"
@@ -48,6 +49,7 @@ exports[`VueBucketLoader display matches snapshot using defaults 1`] = `
   <label
     class="vue-bucket-loader__label"
   >
+     
     <input
       class="vue-bucket-loader__input"
       multiple="multiple"

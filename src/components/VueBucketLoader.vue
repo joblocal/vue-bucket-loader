@@ -16,6 +16,7 @@
     </ul>
 
     <label class="vue-bucket-loader__label">
+      <slot name="label"></slot>
       <input
         class="vue-bucket-loader__input"
         type="file"
