@@ -2,7 +2,7 @@
   <div class="vue-bucket-loader">
     <ul v-if="files.length > 0">
       <slot
-        name="item"
+        name="list-item"
         v-for="(fileItem, key) in files"
         :item="fileItem"
       >
