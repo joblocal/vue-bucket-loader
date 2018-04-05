@@ -9,13 +9,13 @@ This Project provides a SSR compatible vue component which can handle file uploa
 
 Using yarn:
 ```sh
-$ yarn add vue-bucket-loader
+$ yarn add @joblocal/vue-bucket-loader
 ```
 
 Using npm:
 
 ```sh
-$ npm install vue-bucket-loader
+$ npm install @joblocal/vue-bucket-loader
 ```
 
 ### Usage
