@@ -1,5 +1,6 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const resolve = file => path.resolve(__dirname, file);
 const isProd = process.argv.indexOf('-p') !== -1;
@@ -42,6 +43,9 @@ const config = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        options: {
+          extractCSS: true,
+        },
       },
     ],
   },
@@ -51,6 +55,7 @@ const config = {
       template: resolve('docs/index.html'),
       inject: true,
     }),
+    new ExtractTextPlugin('style.css'),
   ],
 
   devServer: {
