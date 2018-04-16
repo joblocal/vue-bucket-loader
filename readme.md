@@ -9,17 +9,17 @@ This Project provides a SSR compatible vue component which can handle file uploa
 
 Using yarn:
 ```sh
-$ yarn add vue-bucket-loader
+$ yarn add @joblocal/vue-bucket-loader
 ```
 
 Using npm:
 
 ```sh
-$ npm install vue-bucket-loader
+$ npm install @joblocal/vue-bucket-loader
 ```
 
 ### Usage
-After installing this package you can use it as followed.
+After installing the package you can use it as follows.
 
 ```javascript
 <template>
@@ -92,7 +92,7 @@ $ yarn dev
 * [Jest Api](https://facebook.github.io/jest/docs/en/api.html)
 
 ## Contributing
-Please read through our [contributing guidelines](https://github.com/joblocal/vue-bucket-loader/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and feature requests.
+Please read through our [contributing guidelines](https://github.com/joblocal/vue-bucket-loader/blob/master/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and feature requests.
 
 
 ## Authors
