@@ -91,6 +91,19 @@ describe('adding files', () => {
     expect(handleFilesAdded).toBeCalled();
   });
 
+  test('to pass file list on drop', () => {
+    const handleFilesAdded = jest.fn();
+    wrapper.setMethods({
+      handleFilesAdded,
+    });
+    wrapper.find('label').trigger('drop', {
+      dataTransfer: {
+        files: [],
+      },
+    });
+    expect(handleFilesAdded).toBeCalled();
+  });
+
   test('to emit "files-added-before" event', () => {
     wrapper.vm.handleFilesAdded(fileList);
     expect(wrapper.emitted('add-files-before')[0][0])

@@ -15,7 +15,11 @@
       </slot>
     </ul>
 
-    <label class="vue-bucket-loader__label">
+    <label
+      class="vue-bucket-loader__label"
+      @drop.prevent.stop="handleFilesDropped($event)"
+      @dragover.prevent.stop
+    >
       <slot name="label"></slot>
       <input
         class="vue-bucket-loader__input"
@@ -48,6 +52,10 @@ export default {
   },
 
   methods: {
+    handleFilesDropped(event) {
+      this.handleFilesAdded(event.dataTransfer.files);
+    },
+
     handleFilesAdded(fileList) {
       const files = Object.keys(fileList).map(key => fileList[key]);
       this.$emit('add-files-before', { files });
