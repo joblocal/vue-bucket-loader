@@ -65,6 +65,39 @@ describe('requests presignedUrl', () => {
   });
 });
 
+describe('to pass class as a prop', () => {
+  test('to pass class as a object', () => {
+    const className = { loremClass: true };
+
+    wrapper = mount(VueBucketLoader, {
+      propsData: { className, signingUrl },
+    });
+
+    expect(wrapper.classes()).toContain('loremClass');
+  });
+
+  test('to pass class as a string', () => {
+    const className = 'loremClass';
+
+    wrapper = mount(VueBucketLoader, {
+      propsData: { className, signingUrl },
+    });
+
+    expect(wrapper.classes()).toContain('loremClass');
+  });
+
+  test('to pass class as an array', () => {
+    const className = [{ loremClass: true }, 'ipsumClass'];
+
+    wrapper = mount(VueBucketLoader, {
+      propsData: { className, signingUrl },
+    });
+
+    expect(wrapper.classes()).toContain('loremClass');
+    expect(wrapper.classes()).toContain('ipsumClass');
+  });
+});
+
 describe('adding files', () => {
   const files = [
     'file 1',
@@ -81,6 +114,7 @@ describe('adding files', () => {
       },
     });
   });
+
 
   test('to call handleFilesAdded on change', () => {
     const handleFilesAdded = jest.fn();
