@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-bucket-loader">
+  <div class="vue-bucket-loader" :class="className">
     <ul v-if="files.length > 0">
       <slot
         name="list-item"
@@ -49,6 +49,7 @@ export default {
       required: false,
       default: () => true,
     },
+    className: [String, Object, Array],
   },
 
   methods: {
