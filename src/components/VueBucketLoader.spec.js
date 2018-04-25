@@ -65,113 +65,36 @@ describe('requests presignedUrl', () => {
   });
 });
 
-describe('adding files', () => {
-  const files = [
-    'file 1',
-    'file 2',
-  ];
-  const fileList = {
-    0: files[0],
-    1: files[1],
-  };
-  beforeEach(() => {
+describe('to pass class as a prop', () => {
+  test('to pass class as a object', () => {
+    const className = { loremClass: true };
+
     wrapper = mount(VueBucketLoader, {
-      propsData: {
-        signingUrl,
-      },
+      propsData: { className, signingUrl },
     });
+
+    expect(wrapper.classes()).toContain('loremClass');
   });
 
-  test('to call handleFilesAdded on change', () => {
-    const handleFilesAdded = jest.fn();
-    wrapper.setMethods({
-      handleFilesAdded,
-    });
-    wrapper.find('input[type=file]').trigger('change');
-    expect(handleFilesAdded).toBeCalled();
-  });
+  test('to pass class as a string', () => {
+    const className = 'loremClass';
 
-  test('to emit "files-added-before" event', () => {
-    wrapper.vm.handleFilesAdded(fileList);
-    expect(wrapper.emitted('add-files-before')[0][0])
-      .toEqual({ files });
-  });
-
-  test('to call beforeUpload for each file', () => {
-    const beforeUpload = jest.fn();
-    wrapper.setProps({
-      beforeUpload,
-    });
-    wrapper.vm.handleFilesAdded(fileList);
-    expect(beforeUpload).toHaveBeenCalledTimes(2);
-  });
-
-  test('to call uploadFile for each file', () => {
-    const uploadFile = jest.fn();
-    wrapper.setMethods({
-      uploadFile,
-    });
-    wrapper.vm.handleFilesAdded(fileList);
-    expect(uploadFile).toHaveBeenCalledTimes(2);
-  });
-});
-
-describe('upload file', () => {
-  const postEndpoint = 's3://localhost/postEndpoint';
-  const location = 's3://localhost/file.jpg';
-  const signature = { key: 'value' };
-  const file = { name: 'file.jpg' };
-  const formData = new FormData();
-
-  formData.append('key', 'value');
-  formData.append('file', file);
-
-  beforeEach(() => {
     wrapper = mount(VueBucketLoader, {
-      propsData: {
-        signingUrl,
-      },
+      propsData: { className, signingUrl },
     });
 
-    const getPresignedUrl = jest.fn()
-      .mockReturnValue({
-        data: {
-          postEndpoint,
-          signature,
-        },
-      });
+    expect(wrapper.classes()).toContain('loremClass');
+  });
 
-    axios.post = jest.fn()
-      .mockReturnValue({
-        headers: {
-          location,
-        },
-      });
+  test('to pass class as an array', () => {
+    const className = [{ loremClass: true }, 'ipsumClass'];
 
-    wrapper.setMethods({
-      getPresignedUrl,
+    wrapper = mount(VueBucketLoader, {
+      propsData: { className, signingUrl },
     });
-  });
 
-  test('to upload file via post', async () => {
-    await wrapper.vm.uploadFile(file);
-
-    expect(axios.post).toBeCalledWith(
-      postEndpoint,
-      formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } },
-    );
-  });
-
-  test('to add file to files array', async () => {
-    await wrapper.vm.uploadFile(file);
-
-    expect(wrapper.vm.files).toEqual([
-      {
-        file,
-        location,
-      },
-    ]);
+    expect(wrapper.classes()).toContain('loremClass');
+    expect(wrapper.classes()).toContain('ipsumClass');
   });
 });
 

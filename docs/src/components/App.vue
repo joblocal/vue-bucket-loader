@@ -33,7 +33,7 @@
       </code>
     </pre>
     <VueBucketLoader
-      :signungUrl="'https://httpbin.org/post'"
+      :signingUrl="'https://httpbin.org/post'"
     >
       <template slot="label">
         Upload your files:
@@ -99,7 +99,7 @@ export default {
 
     customLabelExample: `
       <VueBucketLoader
-        :signungUrl="'https://httpbin.org/post'"
+        :signingUrl="'https://httpbin.org/post'"
       >
         <template slot="label">
           Upload your files:
@@ -109,7 +109,7 @@ export default {
 
     mimeTypeCheckExample: `
       <VueBucketLoader
-        :signungUrl="'https://httpbin.org/post'"
+        :signingUrl="'https://httpbin.org/post'"
         :beforeUpload="(file) => checkYourMimeType(file)"
       />
     `,

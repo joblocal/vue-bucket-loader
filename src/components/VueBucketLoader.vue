@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-bucket-loader">
+  <div class="vue-bucket-loader" :class="className">
     <ul v-if="files.length > 0">
       <slot
         name="list-item"
@@ -15,7 +15,11 @@
       </slot>
     </ul>
 
-    <label class="vue-bucket-loader__label">
+    <label
+      class="vue-bucket-loader__label"
+      @drop.prevent.stop="handleFilesDropped($event)"
+      @dragover.prevent.stop
+    >
       <slot name="label"></slot>
       <input
         class="vue-bucket-loader__input"
@@ -45,9 +49,14 @@ export default {
       required: false,
       default: () => true,
     },
+    className: [String, Object, Array],
   },
 
   methods: {
+    handleFilesDropped(event) {
+      this.handleFilesAdded(event.dataTransfer.files);
+    },
+
     handleFilesAdded(fileList) {
       const files = Object.keys(fileList).map(key => fileList[key]);
       this.$emit('add-files-before', { files });
