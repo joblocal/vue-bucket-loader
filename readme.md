@@ -24,7 +24,7 @@ After installing the package you can use it as follows.
 ```javascript
 <template>
   <VueBucketLoader
-    :signungUrl="http://localhost/your/endpoint/goes/here"
+    :signingUrl="http://localhost/your/endpoint/goes/here"
   />
 </template>
 
