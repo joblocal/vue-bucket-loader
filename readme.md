@@ -29,7 +29,7 @@ After installing the package you can use it as follows.
 </template>
 
 <script>
-  import VueBucketLoader from 'vue-bucket-loader';
+  import VueBucketLoader from '@joblocal/vue-bucket-loader';
 
   export default {
     components: {
