@@ -9,7 +9,10 @@
       >
         <li :key="key" :class="className">
           {{ fileItem.file.name }}
-          <button @click.prevent="handleFileDeleted(fileItem)">
+          <button
+            @click.prevent="handleFileDeleted(fileItem)"
+            v-if="fileItem.location"
+          >
             delete
           </button>
         </li>
