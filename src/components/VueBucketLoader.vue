@@ -136,9 +136,13 @@ export default {
     */
     async handleFileDeleted(file) {
       this.$emit('delete-file-before', { file });
+
       try {
         // delete the file from s3
-        await axios.delete(file.location);
+        if (file.location !== null) {
+          await axios.delete(file.location);
+        }
+
         // remove the item from the files array
         this.files.splice(
           this.files.findIndex(item => item === file),
