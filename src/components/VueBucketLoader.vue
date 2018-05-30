@@ -53,6 +53,23 @@ export default {
   },
 
   methods: {
+    listItemClassNames({ loading, location }) {
+      const classNames = ['vue-bucket-loader__list-item'];
+
+      // TODO: check for state === 'loading' ...
+      if (loading === true) {
+        classNames.push('vue-bucket-loader__list-item--loading');
+      }
+      if (loading === false && location !== null) {
+        classNames.push('vue-bucket-loader__list-item--success');
+      }
+      if (loading === false && location === null) {
+        classNames.push('vue-bucket-loader__list-item--error');
+      }
+
+      return classNames;
+    },
+
     handleFilesDropped(event) {
       this.handleFilesAdded(event.dataTransfer.files);
     },
