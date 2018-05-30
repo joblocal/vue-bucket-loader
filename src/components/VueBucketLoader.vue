@@ -1,12 +1,13 @@
 <template>
   <div class="vue-bucket-loader" :class="className">
-    <ul v-if="files.length > 0">
+    <ul v-if="files.length > 0" class="vue-bucket-loader__list">
       <slot
         name="list-item"
         v-for="(fileItem, key) in files"
         :item="fileItem"
+        :className="listItemClassName(fileItem)"
       >
-        <li :key="key">
+        <li :key="key" :class="className">
           {{ fileItem.file.name }}
           <button @click.prevent="handleFileDeleted(fileItem)">
             delete
