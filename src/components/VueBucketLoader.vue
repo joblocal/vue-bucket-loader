@@ -61,9 +61,25 @@ export default {
       const files = Object.keys(fileList).map(key => fileList[key]);
       this.$emit('add-files-before', { files });
 
-      files.forEach((file) => {
+      files.forEach(async (file) => {
         if (this.beforeUpload(file)) {
-          this.uploadFile(file);
+          const fileItem = {
+            file,
+            loading: true, // TODO: rename to state with 'loading', 'error', 'success'
+            location: null,
+          };
+
+          this.files.push(fileItem);
+
+          try {
+            fileItem.location = await this.uploadFile(file);
+            // TODO: set state to 'success'
+          } catch (error) {
+            throw error;
+            // TODO: set state to 'error'
+          }
+
+          fileItem.loading = false;
         }
       });
     },
@@ -93,10 +109,8 @@ export default {
         { headers: { 'Content-Type': 'multipart/form-data' } },
       );
 
-      this.files.push({
-        file,
-        location,
-      });
+      // TODO: make sure location is available even on failed uploads
+      return location;
     },
 
     /**
