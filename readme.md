@@ -78,7 +78,7 @@ $ yarn test
 To start the development server use
 
 ```sh
-$ yarn dev
+$ yarn start
 ```
 
 ## Built with
