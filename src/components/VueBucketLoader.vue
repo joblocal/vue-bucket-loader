@@ -66,7 +66,7 @@ export default {
       if (state === 'success' && location !== null) {
         classNames.push('vue-bucket-loader__list-item--success');
       }
-      if (state === 'false' && location === null) {
+      if (state === 'error' && location === null) {
         classNames.push('vue-bucket-loader__list-item--error');
       }
 

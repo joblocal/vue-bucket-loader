@@ -126,7 +126,21 @@ describe('upload file', () => {
 
     await wrapper.vm.handleFilesAdded([file]);
     await wrapper.vm.$nextTick();
-    // console.log(wrapper.vm.files[0].state);
+
+    expect(wrapper.vm.files).toEqual(result);
+  });
+
+  test('to not add file and have error state', async () => {
+    const error = 'Server error';
+
+    result[0].location = null;
+    result[0].state = 'error';
+
+    axios.post.mockReturnValue(Promise.reject(error));
+
+    await wrapper.vm.handleFilesAdded([file]);
+    await wrapper.vm.$nextTick();
+
     expect(wrapper.vm.files).toEqual(result);
   });
 });
