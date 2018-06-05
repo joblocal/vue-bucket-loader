@@ -24,12 +24,12 @@ After installing the package you can use it as follows.
 ```javascript
 <template>
   <VueBucketLoader
-    :signungUrl="http://localhost/your/endpoint/goes/here"
+    :signingUrl="http://localhost/your/endpoint/goes/here"
   />
 </template>
 
 <script>
-  import VueBucketLoader from 'vue-bucket-loader';
+  import VueBucketLoader from '@joblocal/vue-bucket-loader';
 
   export default {
     components: {
