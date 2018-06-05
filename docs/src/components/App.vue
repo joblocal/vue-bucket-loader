@@ -68,7 +68,7 @@
             slot-scope="props"
             :class="props.className"
           >
-            {{ props.item.file.name }}
+            {{ props.item.file.name }} - File state: {{ props.item.state }}
             <button @click.prevent="$refs.customFileItemBucketLoader.handleFileDeleted(props.item)">
               delete from s3
             </button>
@@ -117,7 +117,7 @@ export default {
       slot="list-item"
       slot-scope="props"
     >
-      {{ props.item.file.name }}
+      {{ props.item.file.name }} - File state: {{ props.item.state }}
       <button @click.prevent="$refs.customFileItemBucketLoader.handleFileDeleted(props.item)">
         delete from s3
       </button>
