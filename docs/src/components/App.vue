@@ -89,40 +89,40 @@ export default {
 
   data: () => ({
     staticEndpointExample: `<VueBucketLoader
-  :signingUrl="'https://httpbin.org/post'"
-/>`,
+      :signingUrl="'https://httpbin.org/post'"
+    />`,
 
     dynamicEndpointExample: `<VueBucketLoader
-  :signungUrl="() => 'generatedEndpoint'"
-/>`,
+      :signungUrl="() => 'generatedEndpoint'"
+    />`,
 
     customLabelExample: `<VueBucketLoader
-  :signingUrl="'https://httpbin.org/post'"
->
-  <template slot="label">
-    Upload your files:
-  </template>
-</VueBucketLoader>`,
+      :signingUrl="'https://httpbin.org/post'"
+    >
+      <template slot="label">
+        Upload your files:
+      </template>
+    </VueBucketLoader>`,
 
     mimeTypeCheckExample: `<VueBucketLoader
-  :signingUrl="'https://httpbin.org/post'"
-  :beforeUpload="(file) => checkYourMimeType(file)"
-/>`,
+      :signingUrl="'https://httpbin.org/post'"
+      :beforeUpload="(file) => checkYourMimeType(file)"
+    />`,
 
     customFileItemExample: `<VueBucketLoader
-  :signingUrl="'https://httpbin.org/post'"
-  ref="customFileItemBucketLoader"
->
-  <li
-    slot="list-item"
-    slot-scope="props"
-  >
-    {{ props.item.file.name }}
-    <button @click.prevent="$refs.customFileItemBucketLoader.handleFileDeleted(props.item)">
-      delete from s3
-    </button>
-  </li>
-</VueBucketLoader>`,
+      :signingUrl="'https://httpbin.org/post'"
+      ref="customFileItemBucketLoader"
+    >
+    <li
+      slot="list-item"
+      slot-scope="props"
+    >
+      {{ props.item.file.name }}
+      <button @click.prevent="$refs.customFileItemBucketLoader.handleFileDeleted(props.item)">
+        delete from s3
+      </button>
+    </li>
+    </VueBucketLoader>`,
   }),
 
   methods: {
