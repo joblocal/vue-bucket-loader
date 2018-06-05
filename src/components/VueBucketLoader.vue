@@ -5,7 +5,7 @@
         name="list-item"
         v-for="(fileItem, key) in files"
         :item="fileItem"
-        :className="listItemClassName(fileItem)"
+        :className="listItemClassNames(fileItem)"
       >
         <li :key="key" :class="className">
           {{ fileItem.file.name }}
@@ -57,17 +57,16 @@ export default {
   },
 
   methods: {
-    listItemClassNames({ loading, location }) {
+    listItemClassNames({ state, location }) {
       const classNames = ['vue-bucket-loader__list-item'];
 
-      // TODO: check for state === 'loading' ...
-      if (loading === true) {
+      if (state === 'loading') {
         classNames.push('vue-bucket-loader__list-item--loading');
       }
-      if (loading === false && location !== null) {
+      if (state === 'success' && location !== null) {
         classNames.push('vue-bucket-loader__list-item--success');
       }
-      if (loading === false && location === null) {
+      if (state === 'false' && location === null) {
         classNames.push('vue-bucket-loader__list-item--error');
       }
 
@@ -86,7 +85,7 @@ export default {
         if (this.beforeUpload(file)) {
           const fileItem = {
             file,
-            loading: true, // TODO: rename to state with 'loading', 'error', 'success'
+            state: 'loading',
             location: null,
           };
 
@@ -94,13 +93,11 @@ export default {
 
           try {
             fileItem.location = await this.uploadFile(file);
-            // TODO: set state to 'success'
+            fileItem.state = 'success';
           } catch (error) {
+            fileItem.state = 'error';
             throw error;
-            // TODO: set state to 'error'
           }
-
-          fileItem.loading = false;
         }
       });
     },
@@ -130,7 +127,6 @@ export default {
         { headers: { 'Content-Type': 'multipart/form-data' } },
       );
 
-      // TODO: make sure location is available even on failed uploads
       return location;
     },
 

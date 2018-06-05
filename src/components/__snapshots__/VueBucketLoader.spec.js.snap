@@ -4,20 +4,12 @@ exports[`VueBucketLoader display matches snapshot showing file list 1`] = `
 <div
   class="vue-bucket-loader"
 >
-  <ul>
+  <ul
+    class="vue-bucket-loader__list"
+  >
     <li>
       
         file1.jpg
-        
-      <button>
-        
-          delete
-        
-      </button>
-    </li>
-    <li>
-      
-        file2.jpg
         
       <button>
         
