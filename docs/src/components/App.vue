@@ -93,7 +93,7 @@ export default {
     />`,
 
     dynamicEndpointExample: `<VueBucketLoader
-      :signungUrl="() => 'generatedEndpoint'"
+      :signingUrl="() => 'generatedEndpoint'"
     />`,
 
     customLabelExample: `<VueBucketLoader
