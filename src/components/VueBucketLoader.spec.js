@@ -23,18 +23,15 @@ describe('VueBucketLoader display', () => {
   });
 
   test('matches snapshot showing file list', () => {
+    const fileItem = {
+      file: {
+        name: 'file1.jpg',
+      },
+      location: 's3://localhost/file1.jpg',
+    };
     wrapper.setData({
       files: [
-        {
-          file: {
-            name: 'file1.jpg',
-          },
-        },
-        {
-          file: {
-            name: 'file2.jpg',
-          },
-        },
+        fileItem,
       ],
     });
     expect(wrapper.element).toMatchSnapshot();

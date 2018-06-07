@@ -16,6 +16,13 @@ const fileList = {
   0: files[0],
   1: files[1],
 };
+const result = [
+  {
+    file,
+    location: null,
+    state: 'loading',
+  },
+];
 
 let wrapper;
 
@@ -109,12 +116,31 @@ describe('upload file', () => {
   });
 
   test('to add file to files array', async () => {
-    await wrapper.vm.uploadFile(file);
-    expect(wrapper.vm.files).toEqual([
-      {
-        file,
-        location,
-      },
-    ]);
+    await wrapper.vm.handleFilesAdded([file]);
+    expect(wrapper.vm.files).toEqual(result);
+  });
+
+  test('to add file with success state', async () => {
+    result[0].location = location;
+    result[0].state = 'success';
+
+    await wrapper.vm.handleFilesAdded([file]);
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.files).toEqual(result);
+  });
+
+  test('to not add file and have error state', async () => {
+    const error = 'Server error';
+
+    result[0].location = null;
+    result[0].state = 'error';
+
+    axios.post.mockReturnValue(Promise.reject(error));
+
+    await wrapper.vm.handleFilesAdded([file]);
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.files).toEqual(result);
   });
 });
