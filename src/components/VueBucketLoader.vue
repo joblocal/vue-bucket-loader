@@ -1,14 +1,18 @@
 <template>
   <div class="vue-bucket-loader" :class="className">
-    <ul v-if="files.length > 0">
+    <ul v-if="files.length > 0" class="vue-bucket-loader__list">
       <slot
         name="list-item"
         v-for="(fileItem, key) in files"
         :item="fileItem"
+        :className="listItemClassNames(fileItem)"
       >
-        <li :key="key">
+        <li :key="key" :class="className">
           {{ fileItem.file.name }}
-          <button @click.prevent="handleFileDeleted(fileItem)">
+          <button
+            @click.prevent="handleFileDeleted(fileItem)"
+            v-if="fileItem.location"
+          >
             delete
           </button>
         </li>
@@ -53,6 +57,22 @@ export default {
   },
 
   methods: {
+    listItemClassNames({ state, location }) {
+      const classNames = ['vue-bucket-loader__list-item'];
+
+      if (state === 'loading') {
+        classNames.push('vue-bucket-loader__list-item--loading');
+      }
+      if (state === 'success' && location !== null) {
+        classNames.push('vue-bucket-loader__list-item--success');
+      }
+      if (state === 'error' && location === null) {
+        classNames.push('vue-bucket-loader__list-item--error');
+      }
+
+      return classNames;
+    },
+
     handleFilesDropped(event) {
       this.handleFilesAdded(event.dataTransfer.files);
     },
@@ -61,9 +81,23 @@ export default {
       const files = Object.keys(fileList).map(key => fileList[key]);
       this.$emit('add-files-before', { files });
 
-      files.forEach((file) => {
+      files.forEach(async (file) => {
         if (this.beforeUpload(file)) {
-          this.uploadFile(file);
+          const fileItem = {
+            file,
+            state: 'loading',
+            location: null,
+          };
+
+          this.files.push(fileItem);
+
+          try {
+            fileItem.location = await this.uploadFile(file);
+            fileItem.state = 'success';
+          } catch (error) {
+            fileItem.state = 'error';
+            throw error;
+          }
         }
       });
     },
@@ -93,10 +127,7 @@ export default {
         { headers: { 'Content-Type': 'multipart/form-data' } },
       );
 
-      this.files.push({
-        file,
-        location,
-      });
+      return location;
     },
 
     /**
@@ -105,9 +136,13 @@ export default {
     */
     async handleFileDeleted(file) {
       this.$emit('delete-file-before', { file });
+
       try {
         // delete the file from s3
-        await axios.delete(file.location);
+        if (file.location !== null) {
+          await axios.delete(file.location);
+        }
+
         // remove the item from the files array
         this.files.splice(
           this.files.findIndex(item => item === file),

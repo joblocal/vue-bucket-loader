@@ -1,6 +1,6 @@
 {
   "name": "@joblocal/vue-bucket-loader",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "./dist/index.js",
   "license": "MIT",
   "author": "Joblocal GmbH",
@@ -23,8 +23,7 @@
     "test:watch": "npm test -- --watch --onlyChanged",
     "test:coverage": "npm test -- --coverage",
     "lint": "eslint . --ext js,vue --ignore-path .gitignore",
-    "validate": "npm-run-all --parallel lint test",
-    "release": "npm publish --access public"
+    "validate": "npm-run-all --parallel lint test"
   },
   "peerDependencies": {
     "vue": "^2.5.13"
