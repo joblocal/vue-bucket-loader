@@ -56,12 +56,12 @@ this.$on('Event', function( payload ));
 | ------------- | ------------- | ------------- |
 | "add-files-before" | This event will be emitted after a file was added to the input field. | Array
 | "delete-file-before" | This event will be emitted before a file will be removed. | Object
-| "delete-file-succes" | This event will be emitted after a file was successfully uploaded.| Object
-| "delete-file-error" | This event will be emitted after a file was not uploaded.| Object
+| "delete-file-succes" | This event will be emitted after a file was successfully uploaded. | Object
+| "delete-file-error" | This event will be emitted after a file was not uploaded. | Object
 
 ### File loading state
 | State | Description |
-| ------------- | ------------- | ------------- |
+| ------------- | ------------- |
 | "loading" | This file being uploaded.
 | "success" | The file has been successfully added to the bucketloader.
 | "error" | The file was not added due to a server error
