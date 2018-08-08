@@ -1,4 +1,9 @@
 # Vue Bucket Loader
+
+![Downloads](https://img.shields.io/npm/dt/@joblocal\/vue-bucket-loader.svg)
+![Size](https://img.shields.io/bundlephobia/min/@joblocal\/vue-bucket-loader.svg)
+![Zipped Size](https://img.shields.io/bundlephobia/minzip/@joblocal\/vue-bucket-loader.svg)
+
 This Project provides a SSR compatible vue component which can handle file upload / deleting directly to / from a AWS S3 Bucket.
 
 ## Requirements
