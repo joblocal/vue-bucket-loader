@@ -19,4 +19,3 @@ function findOrCreateContainer(id = 'app') {
 
 const container = findOrCreateContainer();
 app.$mount(container);
-
