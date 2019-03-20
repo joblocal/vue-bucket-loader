@@ -26,6 +26,7 @@
     >
       <slot name="label"></slot>
       <input
+        ref="fileUploader"
         class="vue-bucket-loader__input"
         type="file"
         multiple
@@ -82,7 +83,9 @@ export default {
       this.$emit('add-files-before', { files });
 
       files.forEach(async (file) => {
-        if (this.beforeUpload(file)) {
+        if (this.beforeUpload(file)
+          && !this.files.some(currentFile => currentFile.file.name === file)
+        ) {
           const fileItem = {
             file,
             state: 'loading',
@@ -148,6 +151,7 @@ export default {
           this.files.findIndex(item => item === file),
           1,
         );
+        this.$refs.fileUploader.value = '';
         this.$emit('delete-file-success', { file });
       } catch (error) {
         this.$emit('delete-file-error', { file, error });
