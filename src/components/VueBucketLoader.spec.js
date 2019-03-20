@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import axios from 'axios';
 
 import VueBucketLoader from 'src/components/VueBucketLoader';
@@ -185,5 +185,25 @@ describe('deleting files', () => {
     } catch (e) {
       expect(e).toEqual(error);
     }
+  });
+});
+
+describe('to pass allowedextension and mimtype props', () => {
+  beforeEach(() => {
+    wrapper = shallowMount(VueBucketLoader, {
+      propsData: {
+        signingUrl,
+        allowedFileExtensions: ['.pdf'],
+        allowedMimeTypes: ['application/pdf'],
+      },
+    });
+  });
+
+  test('to contain pdf extension and application/pdf mimetype in the accept attribute', () => {
+    expect(
+      wrapper
+        .find('.vue-bucket-loader__input')
+        .attributes('accept'),
+    ).toBe('.pdf,application/pdf');
   });
 });
