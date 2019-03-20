@@ -26,6 +26,7 @@
     >
       <slot name="label"></slot>
       <input
+        :accept="acceptedTypes"
         class="vue-bucket-loader__input"
         type="file"
         multiple
@@ -54,6 +55,20 @@ export default {
       default: () => true,
     },
     className: [String, Object, Array],
+    allowedFileExtensions: {
+      type: Array,
+      default: () => [],
+    },
+    allowedMimeTypes: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
+  computed: {
+    acceptedTypes() {
+      return [...this.allowedFileExtensions, ...this.allowedMimeTypes].join(',');
+    },
   },
 
   methods: {
