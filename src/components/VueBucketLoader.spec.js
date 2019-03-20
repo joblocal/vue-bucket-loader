@@ -188,7 +188,7 @@ describe('deleting files', () => {
   });
 });
 
-describe('to pass allowedextension and mimtype props', () => {
+describe('to pass allowedFileExtensions and allowedMimTypes props', () => {
   beforeEach(() => {
     wrapper = shallowMount(VueBucketLoader, {
       propsData: {
