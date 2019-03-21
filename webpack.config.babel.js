@@ -52,7 +52,6 @@ const config = {
       template: resolve('docs/index.html'),
       inject: true,
     }),
-
     new VueLoaderPlugin(),
   ],
 

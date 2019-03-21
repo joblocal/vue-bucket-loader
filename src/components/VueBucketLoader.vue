@@ -26,6 +26,7 @@
     >
       <slot name="label"></slot>
       <input
+        ref="fileInput"
         :accept="acceptedTypes"
         class="vue-bucket-loader__input"
         type="file"
@@ -94,10 +95,13 @@ export default {
 
     handleFilesAdded(fileList) {
       const files = Object.keys(fileList).map(key => fileList[key]);
+      this.$refs.fileInput.value = '';
       this.$emit('add-files-before', { files });
 
       files.forEach(async (file) => {
-        if (this.beforeUpload(file)) {
+        if (this.beforeUpload(file)
+          && !this.files.some(currentFile => currentFile.file.name === file)
+        ) {
           const fileItem = {
             file,
             state: 'loading',
