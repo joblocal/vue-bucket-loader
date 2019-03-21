@@ -24,6 +24,7 @@ exports[`VueBucketLoader display matches snapshot showing file list 1`] = `
   >
      
     <input
+      accept=""
       class="vue-bucket-loader__input"
       multiple="multiple"
       type="file"
@@ -43,6 +44,7 @@ exports[`VueBucketLoader display matches snapshot using defaults 1`] = `
   >
      
     <input
+      accept=""
       class="vue-bucket-loader__input"
       multiple="multiple"
       type="file"
