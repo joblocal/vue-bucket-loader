@@ -115,7 +115,6 @@ export default {
             fileItem.state = 'success';
           } catch (error) {
             fileItem.state = 'error';
-            throw error;
           }
         }
       });
@@ -170,7 +169,6 @@ export default {
         this.$emit('delete-file-success', { file });
       } catch (error) {
         this.$emit('delete-file-error', { file, error });
-        throw error;
       }
     },
 
