@@ -30,7 +30,7 @@
         :accept="acceptedTypes"
         class="vue-bucket-loader__input"
         type="file"
-        multiple
+        :multiple="alllowMultipleFiles"
         @change="handleFilesAdded($event.target.files)"
       />
     </label>
@@ -46,6 +46,10 @@ export default {
   }),
 
   props: {
+    alllowMultipleFiles: {
+      type: Boolean,
+      default: true,
+    },
     signingUrl: {
       type: [String, Function],
       required: true,
