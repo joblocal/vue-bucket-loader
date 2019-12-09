@@ -97,12 +97,12 @@ export default {
       this.handleFilesAdded(event.dataTransfer.files);
     },
 
-    handleFilesAdded(fileList) {
+    async handleFilesAdded(fileList) {
       const files = Object.keys(fileList).map(key => fileList[key]);
       this.$refs.fileInput.value = '';
       this.$emit('add-files-before', { files });
 
-      files.forEach(async (file) => {
+      for await (const file of files) { // eslint-disable-line no-restricted-syntax
         if (this.beforeUpload(file)
           && !this.files.some(currentFile => currentFile.file.name === file)
         ) {
@@ -121,7 +121,7 @@ export default {
             fileItem.state = 'error';
           }
         }
-      });
+      }
     },
 
     async uploadFile(file) {

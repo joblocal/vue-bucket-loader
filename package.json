@@ -29,7 +29,7 @@
     "vue": "^2.5.13"
   },
   "devDependencies": {
-    "@vue/test-utils": "^1.0.0-beta.12",
+    "@vue/test-utils": "1.0.0-beta.20",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-jest": "23",
