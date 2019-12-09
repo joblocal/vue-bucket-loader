@@ -152,10 +152,10 @@
     source-map "~0.6.1"
     vue-template-es2015-compiler "^1.9.0"
 
-"@vue/test-utils@1.0.0-beta.12":
-  version "1.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.12.tgz#c020d5e7566d176a654e44c88d303743ad19b3cf"
-  integrity sha512-457S/w+VuHnh4jw03ingrVAx8jMbxRz+jGGjoTeEFPZzv20GDzPUauQQqDy71EYw6BiNscC0RGOaLvAcS6BZ9Q==
+"@vue/test-utils@1.0.0-beta.20":
+  version "1.0.0-beta.20"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.20.tgz#ef4505341b802f3de1c06b3cb8651378c87371fa"
+  integrity sha1-70UFNBuALz3hwGs8uGUTeMhzcfo=
   dependencies:
     lodash "^4.17.4"
 
