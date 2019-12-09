@@ -81,21 +81,25 @@ describe('adding files', () => {
       .toEqual({ files });
   });
 
-  test('to call beforeUpload for each file', () => {
+  test('to call beforeUpload for each file', async () => {
     const beforeUpload = jest.fn();
     wrapper.setProps({
       beforeUpload,
     });
-    wrapper.vm.handleFilesAdded(fileList);
+
+    await wrapper.vm.handleFilesAdded(fileList);
+    await wrapper.vm.$nextTick();
     expect(beforeUpload).toHaveBeenCalledTimes(2);
   });
 
-  test('to call uploadFile for each file', () => {
+  test('to call uploadFile for each file', async () => {
     const uploadFile = jest.fn();
     wrapper.setMethods({
       uploadFile,
     });
-    wrapper.vm.handleFilesAdded(fileList);
+
+    await wrapper.vm.handleFilesAdded(fileList);
+    await wrapper.vm.$nextTick();
     expect(uploadFile).toHaveBeenCalledTimes(2);
   });
 });
@@ -116,6 +120,8 @@ describe('upload file', () => {
   });
 
   test('to add file to files array', async () => {
+    result[0].location = location;
+    result[0].state = 'success';
     await wrapper.vm.handleFilesAdded([file]);
     expect(wrapper.vm.files).toEqual(result);
   });
