@@ -203,7 +203,8 @@ describe('to pass allowedFileExtensions and allowedMimTypes props', () => {
     expect(
       wrapper
         .find('.vue-bucket-loader__input')
-        .attributes('accept'),
+        .attributes()
+        .accept,
     ).toBe('.pdf,application/pdf');
   });
 });
