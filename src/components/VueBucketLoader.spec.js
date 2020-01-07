@@ -22,18 +22,22 @@ describe('VueBucketLoader display', () => {
     expect(wrapper.element).toMatchSnapshot();
   });
 
-  test('matches snapshot showing file list', () => {
+  test('matches snapshot showing file list', async () => {
     const fileItem = {
       file: {
         name: 'file1.jpg',
       },
       location: 's3://localhost/file1.jpg',
     };
+
     wrapper.setData({
       files: [
         fileItem,
       ],
     });
+
+    await wrapper.vm.$nextTick();
+
     expect(wrapper.element).toMatchSnapshot();
   });
 });
@@ -47,6 +51,7 @@ describe('requests presignedUrl', () => {
     });
 
     wrapper.vm.getPresignedUrl();
+
     expect(axios.post).toBeCalledWith(signingUrl);
   });
 
@@ -58,6 +63,7 @@ describe('requests presignedUrl', () => {
     });
 
     wrapper.vm.getPresignedUrl();
+
     expect(axios.post).toBeCalledWith(signingUrl);
   });
 });

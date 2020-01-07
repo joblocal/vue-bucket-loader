@@ -102,7 +102,8 @@ export default {
       this.$refs.fileInput.value = '';
       this.$emit('add-files-before', { files });
 
-      for await (const file of files) { // eslint-disable-line no-restricted-syntax
+      // eslint-disable-next-line no-restricted-syntax
+      for (const file of files) {
         if (this.beforeUpload(file)
           && !this.files.some(currentFile => currentFile.file.name === file)
         ) {
@@ -115,6 +116,7 @@ export default {
           this.files.push(fileItem);
 
           try {
+            /* eslint-disable-next-line no-await-in-loop */
             fileItem.location = await this.uploadFile(file);
             fileItem.state = 'success';
           } catch (error) {
