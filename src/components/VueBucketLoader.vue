@@ -22,7 +22,7 @@
     <label
       class="vue-bucket-loader__label"
       @drop.prevent.stop="handleFilesDropped($event)"
-      @dragover.prevent.stop
+      @dragover.prevent.stop="$emit('onDragOver')"
     >
       <slot name="label"></slot>
       <input
@@ -94,6 +94,7 @@ export default {
     },
 
     handleFilesDropped(event) {
+      this.$emit('onDrop');
       this.handleFilesAdded(event.dataTransfer.files);
     },
 
