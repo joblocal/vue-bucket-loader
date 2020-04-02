@@ -105,7 +105,8 @@ export default {
 
       // eslint-disable-next-line no-restricted-syntax
       for (const file of files) {
-        if (this.beforeUpload(file)
+        // eslint-disable-next-line no-await-in-loop
+        if (await this.beforeUpload(file)
           && !this.files.some(currentFile => currentFile.file.name === file)
         ) {
           const fileItem = {
