@@ -1,6 +1,6 @@
 {
   "name": "@joblocal/vue-bucket-loader",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "main": "./dist/index.js",
   "license": "MIT",
   "author": "Joblocal GmbH",
