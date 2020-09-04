@@ -24,7 +24,10 @@
       @drop.prevent.stop="handleFilesDropped($event)"
       @dragover.prevent.stop="$emit('onDragOver')"
     >
-      <slot name="label"></slot>
+      <slot
+        name="label"
+        :files="files"
+      ></slot>
       <input
         ref="fileInput"
         :accept="acceptedTypes"
