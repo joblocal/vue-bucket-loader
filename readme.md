@@ -48,7 +48,7 @@ After installing the package you can use it as follows.
 | Property | Required | Type | Description |
 | ------------- | ------------- | ------------- | ------------- |
 | signingUrl | true | String / Function | Provide an endpoint to a backend service which can generate a [presignedUrl](https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html). |
-| beforeUpload | false | Function | Provide a function to add additional checks before your files get uploaded, e.g. MIME-Type checking. |
+| beforeUpload | false | Function | Provide a function to add additional checks before your files get uploaded, e.g. MIME-Type checking. Returned File objects are used for upload. |
 | allowedFileExtensions | false | Array | Provides possibility to pass specific file extensions.
 | allowedMimeTypes | false | Array | Provides possibility to pass specific MIME type.
 ### Events
