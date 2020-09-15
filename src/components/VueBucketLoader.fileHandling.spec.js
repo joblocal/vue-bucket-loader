@@ -9,8 +9,8 @@ const signature = { key: 'value' };
 const file = { name: 'file.jpg' };
 const signingUrl = 'http://localhost';
 const files = [
-  'file 1',
-  'file 2',
+  { name: 'file 1' },
+  { name: 'file 2' },
 ];
 const fileList = {
   0: files[0],
@@ -101,6 +101,22 @@ describe('adding files', () => {
     await wrapper.vm.handleFilesAdded(fileList);
     await wrapper.vm.$nextTick();
     expect(uploadFile).toHaveBeenCalledTimes(2);
+  });
+
+  test('to take adjusted file from beforeUpload', async () => {
+    const newFile = new File([], 'new.png');
+    const beforeUpload = () => newFile;
+    wrapper.setProps({
+      beforeUpload,
+    });
+    const uploadFile = jest.fn();
+    wrapper.setMethods({
+      uploadFile,
+    });
+
+    await wrapper.vm.handleFilesAdded([new File([], 'original.png')]);
+
+    expect(wrapper.vm.files[0].file).toBe(newFile);
   });
 });
 

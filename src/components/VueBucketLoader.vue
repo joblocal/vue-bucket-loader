@@ -109,11 +109,14 @@ export default {
       // eslint-disable-next-line no-restricted-syntax
       for (const file of files) {
         // eslint-disable-next-line no-await-in-loop
-        if (await this.beforeUpload(file)
-          && !this.files.some(currentFile => currentFile.file.name === file)
+        const uploadState = await this.beforeUpload(file);
+        const uploadFile = uploadState instanceof File ? uploadState : file;
+
+        if (uploadState
+            && !this.files.some(currentFile => currentFile.file.name === uploadFile.name)
         ) {
           const fileItem = {
-            file,
+            file: uploadFile,
             state: 'loading',
             location: null,
           };
@@ -122,7 +125,7 @@ export default {
 
           try {
             /* eslint-disable-next-line no-await-in-loop */
-            fileItem.location = await this.uploadFile(file);
+            fileItem.location = await this.uploadFile(uploadFile);
             fileItem.state = 'success';
           } catch (error) {
             fileItem.state = 'error';
