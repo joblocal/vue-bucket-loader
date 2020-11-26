@@ -53,21 +53,30 @@ export default {
       type: Boolean,
       default: true,
     },
+
     signingUrl: {
       type: [String, Function],
       required: true,
     },
+
     beforeUpload: {
       type: Function,
       required: false,
       default: () => true,
     },
+
     className: [String, Object, Array],
     allowedFileExtensions: {
       type: Array,
       default: () => [],
     },
+
     allowedMimeTypes: {
+      type: Array,
+      default: () => [],
+    },
+
+    existingFiles: {
       type: Array,
       default: () => [],
     },
@@ -140,7 +149,7 @@ export default {
           postEndpoint,
           signature,
         },
-      } = await this.getPresignedUrl();
+      } = await this.getPresignedUrl(file);
 
       const formData = new FormData();
       Object.keys(signature).forEach((key) => {
@@ -191,14 +200,21 @@ export default {
      * we need a backend service which provides a presigned url:
      * https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html
     */
-    async getPresignedUrl() {
+    async getPresignedUrl(file = {}) {
       let url = this.signingUrl;
 
       if (typeof this.signingUrl === 'function') {
-        url = await this.signingUrl();
+        url = await this.signingUrl(file);
       }
       return axios.post(url);
     },
+  },
+
+  mounted() {
+    this.files = [
+      ...this.existingFiles,
+      ...this.files,
+    ];
   },
 };
 </script>
