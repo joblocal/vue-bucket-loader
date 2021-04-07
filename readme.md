@@ -61,9 +61,11 @@ this.$on('Event', function( payload ));
 | Event | Description | Payload |
 | ------------- | ------------- | ------------- |
 | "add-files-before" | This event will be emitted after a file was added to the input field. | Array
+| "add-file-success" | This event will be emitted after a file was successfully uploaded. | Object
+| "add-file-error" | This event will be emitted after a file was not uploaded. | Object
 | "delete-file-before" | This event will be emitted before a file will be removed. | Object
-| "delete-file-succes" | This event will be emitted after a file was successfully uploaded. | Object
-| "delete-file-error" | This event will be emitted after a file was not uploaded. | Object
+| "delete-file-success" | This event will be emitted after a file was successfully deleted. | Object
+| "delete-file-error" | This event will be emitted after a file was not deleted. | Object
 
 ### File loading state
 | State | Description |
