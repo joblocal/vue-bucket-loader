@@ -149,6 +149,8 @@ describe('upload file', () => {
     await wrapper.vm.handleFilesAdded([file]);
     await wrapper.vm.$nextTick();
 
+    expect(wrapper.emitted('add-file-success')[0])
+      .toEqual(result);
     expect(wrapper.vm.files).toEqual(result);
   });
 
@@ -163,6 +165,8 @@ describe('upload file', () => {
     await wrapper.vm.handleFilesAdded([file]);
     await wrapper.vm.$nextTick();
 
+    expect(wrapper.emitted('add-file-error')[0][0])
+      .toEqual({ error, fileItem: result[0] });
     expect(wrapper.vm.files).toEqual(result);
   });
 });
