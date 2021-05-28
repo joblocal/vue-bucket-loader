@@ -136,8 +136,10 @@ export default {
             /* eslint-disable-next-line no-await-in-loop */
             fileItem.location = await this.uploadFile(uploadFile);
             fileItem.state = 'success';
+            this.$emit('add-file-success', fileItem);
           } catch (error) {
             fileItem.state = 'error';
+            this.$emit('add-file-error', { fileItem, error });
           }
         }
       }
