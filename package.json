@@ -85,7 +85,7 @@
     "node": ">= 10.15.3"
   },
   "dependencies": {
-    "axios": "^0.19.0"
+    "axios": "^0.21.1"
   },
   "description": "This Project provides a SSR compatible vue component which can handle file upload / deleting directly to / from a AWS S3 Bucket.",
   "directories": {
